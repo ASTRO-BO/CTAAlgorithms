@@ -25,13 +25,12 @@ SHELL = /bin/sh
 
 SYSTEM= $(shell gcc -dumpmachine)
 #ice, ctarta, mpi, cfitsio
-LINKERENV= ice, ctarta, cfitsio, root
-EXE_NAME1 = RTAReceiver_Ice
-EXE_NAME2 = RTAWave
-LIB_NAME = 
+LINKERENV= ctarta, cfitsio
+EXE_NAME1 =
+LIB_NAME = libRTAAlgorithms
 VER_FILE_NAME = version.h
 #the name of the directory where the conf file are copied (into $(datadir))
-CONF_DEST_DIR = RTACoreIce1
+CONF_DEST_DIR = rtaalgorithms
 #the name of the icon for the installation
 ICON_NAME=
 
@@ -74,7 +73,7 @@ CC       = gcc
 endif
 
 #Set INCPATH to add the inclusion paths
-INCPATH = -I $(INCLUDE_DIR) 
+INCPATH = -I $(INCLUDE_DIR) -I $(CTARTA)/include
 LIBS = -lstdc++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
 CFLAGS   = -g
@@ -86,10 +85,10 @@ ifneq (, $(findstring cfitsio, $(LINKERENV)))
 	LIBS += -lcfitsio
 endif
 ifneq (, $(findstring ctarta, $(LINKERENV)))
-	LIBS += -lpacket
+	LIBS += -lpacket -lRTAUtils -lCTAConfig -pthreads
 endif
 ifneq (, $(findstring root, $(LINKERENV)))
-        ROOTCFLAGS   := $(shell root-config --cflags)
+	ROOTCFLAGS   := $(shell root-config --cflags)
 	ROOTLIBS     := $(shell root-config --libs)
 	ROOTGLIBS    := $(shell root-config --glibs)
 	ROOTCONF=-O -pipe -Wall -W -fPIC -D_REENTRANT
@@ -114,7 +113,7 @@ ifneq (, $(findstring apple, $(SYSTEM)))
  	# Do apple things
 	ifneq (, $(findstring ice, $(LINKERENV)))
                 LIBS += -lZerocIce -lZerocIceUtil -lFreeze
-        endif
+	endif
 endif 
 
 LINK     = $CC
@@ -181,7 +180,7 @@ $(DOXY_SOURCE_DIR)/%.cpp : %.cpp
 ####### 10) Build rules
 
 #all: compile the entire program.
-all: exe
+all: lib
 		#only if conf directory is present:
 		#$(SYMLINK) $(CONF_DIR) $(CONF_DEST_DIR)
 
@@ -220,8 +219,8 @@ clean:
 	$(DEL_FILE) *~ core *.core
 	$(DEL_FILE) $(LIB_DESTDIR)/*.a
 	$(DEL_FILE) $(LIB_DESTDIR)/*.so*
-	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME1)	
-	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME2)
+#$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME1)
+#$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME2)
 	$(DEL_FILE) version
 	$(DEL_FILE) prefix
 	$(DEL_FILE) $(PROJECT).dvi
