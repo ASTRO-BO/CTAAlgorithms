@@ -14,8 +14,8 @@
 		DD6E4CF519EF1DC9003508D8 /* RTABuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTABuffer.cpp; sourceTree = "<group>"; };
 		DD6E4CF619EF1DC9003508D8 /* RTABuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTABuffer.h; sourceTree = "<group>"; };
 		DD6E4CF719EF1DC9003508D8 /* RTAData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAData.h; sourceTree = "<group>"; };
-		DD6E4CF819EF1DC9003508D8 /* RTAAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTAAlgorithm.cpp; sourceTree = "<group>"; };
-		DD6E4CF919EF1DC9003508D8 /* RTAAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAAlgorithm.h; sourceTree = "<group>"; };
+		DD6E4CF819EF1DC9003508D8 /* RTAProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTAProcessor.cpp; sourceTree = "<group>"; };
+		DD6E4CF919EF1DC9003508D8 /* RTAProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAProcessor.h; sourceTree = "<group>"; };
 		DD6E4CFA19F02836003508D8 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		DD6E4CFB19F02836003508D8 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -38,8 +38,8 @@
 				DD6E4CF519EF1DC9003508D8 /* RTABuffer.cpp */,
 				DD6E4CF619EF1DC9003508D8 /* RTABuffer.h */,
 				DD6E4CF719EF1DC9003508D8 /* RTAData.h */,
-				DD6E4CF819EF1DC9003508D8 /* RTAAlgorithm.cpp */,
-				DD6E4CF919EF1DC9003508D8 /* RTAAlgorithm.h */,
+				DD6E4CF819EF1DC9003508D8 /* RTAProcessor.cpp */,
+				DD6E4CF919EF1DC9003508D8 /* RTAProcessor.h */,
 				DD6E4CEE19EE97C8003508D8 /* README */,
 				DD6E4CEF19EE97C8003508D8 /* version.h */,
 			);

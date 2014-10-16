@@ -25,7 +25,6 @@ namespace RTAAlgorithm {
 	public:
 		int id;
 		
-		
 	};
 }
 
