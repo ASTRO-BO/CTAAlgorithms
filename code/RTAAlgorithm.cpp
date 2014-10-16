@@ -16,25 +16,36 @@
 
 #include "RTAAlgorithm.h"
 
+using namespace RTAAlgorithm;
 
-RTAAlgorithm::RTAAlgorithm::RTAAlgorithm(CTAConfig::CTAMDArray* array, unsigned long buffersize, int nthreads) {
+void RTAProcessorThread::init(RTAProcessor* alg) {
+	this->alg = alg;
+	this->stopb = false;
+}
+
+void *RTAProcessorThread::run() {
+	while(!stopb) {
+		alg->processBufferElement();
+	}
+	return 0;
+}
+
+void RTAProcessorThread::stop() {
+	stopb = true;
+}
+
+
+RTAProcessor::RTAProcessor(CTAConfig::CTAMDArray* array, RTABuffer* buffer_input, RTABuffer* buffer_output) {
 	this->array = array;
-	this->buffer = new RTABuffer(buffersize);
-	this->nthreads = nthreads;
+	this->buffer_input = buffer_input;
+	this->buffer_output = buffer_output;
+}
+
+void RTAProcessor::processBufferElement() {
+	RTAData* input = buffer_input->get();
+	RTAData* output = process(input);
+	if(buffer_output)
+		buffer_output->put(output);
 }
 
 
-void RTAAlgorithm::RTAAlgorithm::shutdown() {
-
-}
-
-///Put data into local buffer
-///\return false it the buffer is full
-void RTAAlgorithm::RTAAlgorithm::put(RTAData* data) {
-	buffer->put(data);
-}
-
-///get processed data from buffer
-RTAAlgorithm::RTAData* RTAAlgorithm::RTAAlgorithm::RTAAlgorithm::get() {
-	return buffer->get();
-}

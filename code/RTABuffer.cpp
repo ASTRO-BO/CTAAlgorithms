@@ -41,6 +41,13 @@ void RTAAlgorithm::RTABuffer::put(RTAAlgorithm::RTAData* data) {
 	sem_post(&full);
 }
 
+bool RTAAlgorithm::RTABuffer::isFull() {
+	if(fill == size -1)
+		return true;
+
+	return false;
+}
+
 RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
 	sem_wait(&full);
 	

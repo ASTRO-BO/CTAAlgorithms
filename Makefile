@@ -240,22 +240,22 @@ distclean: clean
 #and so on to the file names where they should reside for actual use. 
 install: all
 	$(shell echo $(prefix) > prefix)
-	#test -d $(infodir) || mkdir -p $(infodir)	
+	#test -d $(infodir) || mkdir -p $(infodir)
 
 	# For library installation
-	#test -d $(libdir) || mkdir -p $(libdir)
-	#test -d $(includedir) || mkdir -p $(includedir)	
-	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETA) $(libdir)
+	test -d $(libdir) || mkdir -p $(libdir)
+	test -d $(includedir) || mkdir -p $(includedir)
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETA) $(libdir)
 	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET0) $(libdir)
 	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET1) $(libdir)
 	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET2) $(libdir)
 	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETD) $(libdir)
-	#$(COPY_FILE) $(INCLUDE) $(includedir)
+	$(COPY_FILE) $(INCLUDE) $(includedir)
 	
 	# For exe installation
-	test -d $(bindir) || mkdir -p $(bindir)	
-	$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME1) $(bindir)
-	$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME2) $(bindir)
+#test -d $(bindir) || mkdir -p $(bindir)
+#	$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME1) $(bindir)
+#	$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME2) $(bindir)
 	
 	#copy icon
 	#test -d $(icondir) || mkdir -p $(icondir)

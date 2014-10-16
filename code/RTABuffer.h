@@ -23,7 +23,7 @@
 #include <semaphore.h>
 #include "RTAData.h"
 
-
+//the producer/consumer (aka Bounded Buffer) problem.
 namespace RTAAlgorithm {
 	
 	class RTABuffer {
@@ -44,7 +44,7 @@ namespace RTAAlgorithm {
 		RTABuffer(unsigned long size);
 		
 		///Put data into local buffer
-		///\return false it the buffer is full
+		///The call is blocking if the buffer is full. Test it before with isFull()
 		void put(RTAData* data);
 		
 		///get processed data from buffer
@@ -52,7 +52,7 @@ namespace RTAAlgorithm {
 		
 		unsigned long getBufferSize();
 		
-		
+		bool isFull();
 	};
 }
 

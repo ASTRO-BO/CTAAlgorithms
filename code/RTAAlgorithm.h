@@ -28,36 +28,47 @@
 using namespace std;
 
 namespace RTAAlgorithm {
+	
 
-	class RTAAlgorithm {
+	///RTA algorithm base class
+	class RTAProcessor {
 		
 	private:
 		
 		CTAConfig::CTAMDArray* array;
 		
-		RTABuffer* buffer;
+		RTABuffer* buffer_input;
 		
-		int nthreads;
+		RTABuffer* buffer_output;
 		
 	public:
 		
-		RTAAlgorithm(CTAConfig::CTAMDArray* array, unsigned long buffersize, int nthreads);
+		RTAProcessor(CTAConfig::CTAMDArray* array, RTABuffer* buffer_input = 0, RTABuffer* buffer_output = 0);
 		
 		virtual void init() = 0;
 		
-		///write the algorithm in this method
+		virtual void processBufferElement();
+		
+		///write the algorithm in this method. Use this method also the test manually the algorithm
 		virtual RTAData* process(RTAData* input) = 0;
 		
-		virtual void shutdown();
-		
-		///Put data into local buffer
-		///\return false it the buffer is full
-		void put(RTAData* data);
-		
-		///get processed data from buffer
-		RTAData* get();
 	};
 	
+	class RTAProcessorThread {
+	private:
+		
+		RTAProcessor* alg;
+		
+		bool stopb;
+		
+	public:
+		
+		void init(RTAProcessor* alg);
+		
+		void *run();
+		
+		void stop();
+	};
 }
 
 #endif
