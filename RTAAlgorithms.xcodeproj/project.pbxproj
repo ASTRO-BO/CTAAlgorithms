@@ -16,8 +16,10 @@
 		DD6E4CF719EF1DC9003508D8 /* RTAData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAData.h; sourceTree = "<group>"; };
 		DD6E4CF819EF1DC9003508D8 /* RTAProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTAProcessor.cpp; sourceTree = "<group>"; };
 		DD6E4CF919EF1DC9003508D8 /* RTAProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAProcessor.h; sourceTree = "<group>"; };
-		DD6E4CFA19F02836003508D8 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
-		DD6E4CFB19F02836003508D8 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
+		DDD7054F19F3923D006672EA /* RTAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAConsumer.h; sourceTree = "<group>"; };
+		DDD7055019F3923D006672EA /* RTAConsumer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTAConsumer.cpp; sourceTree = "<group>"; };
+		DDD7055119F3923D006672EA /* RTAProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAProducer.h; sourceTree = "<group>"; };
+		DDD7055219F3923D006672EA /* RTAProducer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTAProducer.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -33,8 +35,10 @@
 		DD6E4CEC19EE97C8003508D8 /* code */ = {
 			isa = PBXGroup;
 			children = (
-				DD6E4CFA19F02836003508D8 /* thread.cpp */,
-				DD6E4CFB19F02836003508D8 /* thread.h */,
+				DDD7054F19F3923D006672EA /* RTAConsumer.h */,
+				DDD7055019F3923D006672EA /* RTAConsumer.cpp */,
+				DDD7055119F3923D006672EA /* RTAProducer.h */,
+				DDD7055219F3923D006672EA /* RTAProducer.cpp */,
 				DD6E4CF519EF1DC9003508D8 /* RTABuffer.cpp */,
 				DD6E4CF619EF1DC9003508D8 /* RTABuffer.h */,
 				DD6E4CF719EF1DC9003508D8 /* RTAData.h */,

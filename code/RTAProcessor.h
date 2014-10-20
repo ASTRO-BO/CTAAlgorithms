@@ -1,5 +1,5 @@
 /***************************************************************************
- RTABuffer.h
+ RTAProcessor.h
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,54 +14,60 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTABUFFER_H
-#define _RTABUFFER_H
+#ifndef _RTAPROCESSOR_H
+#define _RTAPROCESSOR_H
 
-
-#include <pthread.h>
-#include <stdio.h>
-#include <semaphore.h>
+#include "CTAMDArray.h"
 #include "RTAData.h"
+#include "RTABuffer.h"
+#include "RTAProducer.h"
+#include "RTAConsumer.h"
+#include <stdlib.h>
 #include <string>
+#include <iostream>
+#include "rtautils/Thread.h"
+
 
 using namespace std;
 
-//the producer/consumer (aka Bounded Buffer) problem.
 namespace RTAAlgorithm {
 	
-	class RTABuffer {
+
+	///RTA algorithm base class
+	class RTAProcessor : public RTAConsumer, public RTAProducer {
 		
 	private:
 		
-		RTAAlgorithm::RTAData** buffer;
-		int fill;
-		int use;
-		int circularBuffer;
-		sem_t* empty;
-		sem_t* full;
-		pthread_mutex_t mutex;
-		string semname1;
-		string semname2;
+		CTAConfig::CTAMDArray* array;
 		
-		int size;
 		
 	public:
 		
-		RTABuffer(string name, int size);
-		~RTABuffer();
-		///Put data into local buffer
-		///The call is blocking if the buffer is full. Test it before with isFull()
-		void put(RTAData* data);
+		RTAProcessor(CTAConfig::CTAMDArray* array, RTABuffer* buffer_input = 0, RTABuffer* buffer_output = 0);
 		
-		///get processed data from buffer
-		///The call is blocking if the buffer is empty.
-		RTAData* get();
+		virtual void init() = 0;
 		
-		int getBufferSize();
+		virtual void processBufferElement();
 		
-		bool isFull();
+		///write the algorithm in this method. Use this method also the test manually the algorithm
+		virtual RTAData* process(RTAData* input) = 0;
 		
-		RTAData* getNextCircularBuffer();
+	};
+	
+	class RTAProcessorThread : public Thread {
+	private:
+		
+		RTAProcessor* alg;
+		
+		bool stopb;
+		
+	public:
+				
+		void init(RTAProcessor* alg);
+		
+		void *run();
+		
+		void stop();
 	};
 }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- RTABuffer.h
+ RTAProcessor.cpp
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,55 +14,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTABUFFER_H
-#define _RTABUFFER_H
+#include "RTAProcessor.h"
 
+using namespace RTAAlgorithm;
 
-#include <pthread.h>
-#include <stdio.h>
-#include <semaphore.h>
-#include "RTAData.h"
-#include <string>
-
-using namespace std;
-
-//the producer/consumer (aka Bounded Buffer) problem.
-namespace RTAAlgorithm {
-	
-	class RTABuffer {
-		
-	private:
-		
-		RTAAlgorithm::RTAData** buffer;
-		int fill;
-		int use;
-		int circularBuffer;
-		sem_t* empty;
-		sem_t* full;
-		pthread_mutex_t mutex;
-		string semname1;
-		string semname2;
-		
-		int size;
-		
-	public:
-		
-		RTABuffer(string name, int size);
-		~RTABuffer();
-		///Put data into local buffer
-		///The call is blocking if the buffer is full. Test it before with isFull()
-		void put(RTAData* data);
-		
-		///get processed data from buffer
-		///The call is blocking if the buffer is empty.
-		RTAData* get();
-		
-		int getBufferSize();
-		
-		bool isFull();
-		
-		RTAData* getNextCircularBuffer();
-	};
+void RTAProcessorThread::init(RTAProcessor* alg) {
+	this->alg = alg;
+	this->stopb = false;
 }
 
-#endif
+void *RTAProcessorThread::run() {
+	while(!stopb) {
+		alg->processBufferElement();
+	}
+	return 0;
+}
+
+void RTAProcessorThread::stop() {
+	stopb = true;
+}
+
+
+RTAProcessor::RTAProcessor(CTAConfig::CTAMDArray* array, RTABuffer* buffer_input, RTABuffer* buffer_output) : RTAConsumer(buffer_input), RTAProducer(buffer_output) {
+	this->array = array;
+}
+
+void RTAProcessor::processBufferElement() {
+	RTAData* input = buffer_input->get();
+	RTAData* output = process(input);
+	if(buffer_output)
+		buffer_output->put(output);
+}
+
+
