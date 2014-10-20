@@ -36,7 +36,7 @@ namespace RTAAlgorithm {
 	///RTA algorithm base class
 	class RTAProcessor : public RTAConsumer, public RTAProducer {
 		
-	private:
+	protected:
 		
 		CTAConfig::CTAMDArray* array;
 		

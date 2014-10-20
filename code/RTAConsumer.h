@@ -18,7 +18,7 @@
 #define _RTACONSUMER_H
 
 #include "RTABuffer.h"
-
+#include "rtautils/Thread.h"
 
 using namespace std;
 
@@ -40,6 +40,16 @@ namespace RTAAlgorithm {
 		
 		RTABuffer* getBufferInput();
 		
+	};
+	
+	
+	class RTABufferCleaner : public RTAConsumer, public Thread {
+	
+	public:
+		
+		RTABufferCleaner(RTABuffer* buffer_input);
+		
+		void *run();
 	};
 	
 }
