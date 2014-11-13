@@ -16,6 +16,7 @@
 
 #include "RTABuffer.h"
 #include <iostream>
+#include <fcntl.h>
 using namespace std;
 
 RTAAlgorithm::RTABuffer::RTABuffer(string name, int size) {
