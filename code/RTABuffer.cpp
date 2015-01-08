@@ -25,22 +25,24 @@ RTAAlgorithm::RTABuffer::RTABuffer(string name, int size) {
 	fill = 0;
 	use  = 0;
 	circularBuffer = 0;
-	semname1 = "/tmp/empty";
 	_name = name;
+	semname1 = "empty_";
 	semname1 += name;
 	sem_unlink(semname1.c_str());
-	semname2 = "/tmp/full";
+	semname2 = "full_";
 	semname2 += name;
 	sem_unlink(semname2.c_str());
 	//sem_init(&empty, 0, size); // MAX buffers are empty to begin with...
 	//sem_init(&full, 0, 0);    // ... and 0 are full
 	empty = sem_open(semname1.c_str(), O_CREAT, 0644, size);
-	if (empty == (void *)-1) {
+	if (empty == SEM_FAILED) {
 		perror(" empty sem_open() failed ");
+		exit(0);
 	}
 	full = sem_open(semname2.c_str(), O_CREAT, 0644, 0);
-	if (full == (void *)-1) {
+	if (full == SEM_FAILED) {
 		perror(" empty sem_open() failed ");
+		exit(0);
 	}
 	pthread_mutex_init(&mutex, NULL);
 }
@@ -53,8 +55,11 @@ RTAAlgorithm::RTABuffer::~RTABuffer() {
 }
 
 void RTAAlgorithm::RTABuffer::put(RTAAlgorithm::RTAData* data) {
-	
-	sem_wait(empty);
+	int ret = sem_wait(empty);
+	if(ret != 0) {
+		perror("empty sem_wait() failed ");
+		exit(0);
+	}
 	// scope of lock reduced
 	pthread_mutex_lock(&mutex);
 	
@@ -62,8 +67,13 @@ void RTAAlgorithm::RTABuffer::put(RTAAlgorithm::RTAData* data) {
 	fill = (fill + 1) % size;
 	
 	pthread_mutex_unlock(&mutex);
-	
-	sem_post(full);
+
+	ret = sem_post(full);
+	if(ret != 0) {
+		perror("full sem_post() failed ");
+		exit(0);
+	}
+
 }
 
 bool RTAAlgorithm::RTABuffer::isFull() {
@@ -74,8 +84,11 @@ bool RTAAlgorithm::RTABuffer::isFull() {
 }
 
 RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
-	//sem_wait(&full);
-	sem_wait(full);
+	int ret = sem_wait(full);
+	if(ret != 0) {
+		perror("full sem_wait() failed ");
+		exit(0);
+	}
 	
 	// scope of lock reduced
 	pthread_mutex_lock(&mutex);
@@ -84,9 +97,12 @@ RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
 	use = (use + 1) % size;
 	
 	pthread_mutex_unlock(&mutex);
-	
-	//sem_post(&empty);
-	sem_post(empty);
+
+	ret = sem_post(empty);
+	if(ret != 0) {
+		perror("empty sem_post() failed ");
+		exit(0);
+	}
 	
 	return b;
 }
