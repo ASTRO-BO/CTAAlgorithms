@@ -26,6 +26,7 @@ RTAAlgorithm::RTABuffer::RTABuffer(string name, int size) {
 	use  = 0;
 	circularBuffer = 0;
 	semname1 = "/tmp/empty";
+	_name = name;
 	semname1 += name;
 	sem_unlink(semname1.c_str());
 	semname2 = "/tmp/full";

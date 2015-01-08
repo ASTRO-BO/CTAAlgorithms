@@ -42,6 +42,8 @@ namespace RTAAlgorithm {
 		pthread_mutex_t mutex;
 		string semname1;
 		string semname2;
+
+		string _name;
 		
 		int size;
 		
@@ -56,6 +58,10 @@ namespace RTAAlgorithm {
 		///get processed data from buffer
 		///The call is blocking if the buffer is empty.
 		RTAData* get();
+
+		string getName() {
+			return _name;
+		}
 		
 		int getBufferSize();
 		
