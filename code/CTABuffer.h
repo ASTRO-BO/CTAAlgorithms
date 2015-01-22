@@ -18,7 +18,6 @@
 #define _CTABUFFER_H
 
 #include <pthread.h>
-#include <stdio.h>
 #include <semaphore.h>
 #include "CTAData.h"
 #include <string>
