@@ -41,7 +41,7 @@ namespace CTAAlgorithm {
 	};
 	
 	
-	class CTABufferCleaner : public CTAConsumer, public Thread {
+	class CTABufferCleaner : public CTAConsumer, public CTAUtils::Thread {
 	
 	public:
 		

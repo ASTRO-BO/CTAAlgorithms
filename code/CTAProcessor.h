@@ -51,7 +51,7 @@ namespace CTAAlgorithm {
 		
 	};
 	
-	class CTAProcessorThread : public Thread {
+	class CTAProcessorThread : public CTAUtils::Thread {
 	private:
 		
 		CTAProcessor* alg;
