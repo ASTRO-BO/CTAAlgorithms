@@ -1,5 +1,5 @@
 /***************************************************************************
- RTAProducer.h
+ CTAConsumer.h
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,32 +14,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTAPRODUCER_H
-#define _RTAPRODUCER_H
+#ifndef _CTACONSUMER_H
+#define _CTACONSUMER_H
 
-#include "RTABuffer.h"
+#include "CTABuffer.h"
+#include <rtautils/Thread.h>
 
-
-using namespace std;
-
-namespace RTAAlgorithm {
+namespace CTAAlgorithm {
 	
 	
-	///RTA algorithm base class
-	class RTAProducer {
+	///CTA algorithm base class
+	class CTAConsumer {
 		
 	protected:
 		
-		RTABuffer* buffer_output;
+		CTABuffer* buffer_input;
 		
 	public:
 		
-		RTAProducer(RTABuffer* buffer_output);
+		CTAConsumer(CTABuffer* buffer_input);
 		
-		void setBufferOutput(RTABuffer* buffer_output);
+		void setBufferInput(CTABuffer* buffer_input);
 		
-		RTABuffer* getBufferOutput();
+		CTABuffer* getBufferInput();
 		
+	};
+	
+	
+	class CTABufferCleaner : public CTAConsumer, public Thread {
+	
+	public:
+		
+		CTABufferCleaner(CTABuffer* buffer_input);
+		
+		void *run();
 	};
 	
 }

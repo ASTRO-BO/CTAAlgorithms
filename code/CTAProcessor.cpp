@@ -1,7 +1,7 @@
 /***************************************************************************
- RTAConsumer.h
+ CTAProcessor.cpp
  -------------------
- copyright            : (C) 2014 Andrea Bulgarelli
+ copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
@@ -14,44 +14,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTACONSUMER_H
-#define _RTACONSUMER_H
+#include "CTAProcessor.h"
 
-#include "RTABuffer.h"
-#include "rtautils/Thread.h"
+namespace CTAAlgorithm {
 
-using namespace std;
-
-namespace RTAAlgorithm {
-	
-	
-	///RTA algorithm base class
-	class RTAConsumer {
-		
-	protected:
-		
-		RTABuffer* buffer_input;
-		
-	public:
-		
-		RTAConsumer(RTABuffer* buffer_input);
-		
-		void setBufferInput(RTABuffer* buffer_input);
-		
-		RTABuffer* getBufferInput();
-		
-	};
-	
-	
-	class RTABufferCleaner : public RTAConsumer, public Thread {
-	
-	public:
-		
-		RTABufferCleaner(RTABuffer* buffer_input);
-		
-		void *run();
-	};
-	
+void CTAProcessorThread::init(CTAProcessor* alg) {
+	this->alg = alg;
+	this->stopb = false;
 }
 
-#endif
+void *CTAProcessorThread::run() {
+	while(!stopb) {
+		alg->processBufferElement();
+	}
+	return 0;
+}
+
+void CTAProcessorThread::stop() {
+	stopb = true;
+}
+
+
+CTAProcessor::CTAProcessor(CTAConfig::CTAMDArray* array, CTABuffer* buffer_input, CTABuffer* buffer_output) : CTAConsumer(buffer_input), CTAProducer(buffer_output) {
+	this->array = array;
+}
+
+void CTAProcessor::processBufferElement() {
+	CTAData* input = buffer_input->get();
+	CTAData* output = process(input);
+	if(buffer_output)
+		buffer_output->put(output);
+}
+
+}

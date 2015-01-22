@@ -1,5 +1,5 @@
 /***************************************************************************
- RTABuffer.h
+ CTABuffer.h
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,52 +14,49 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTABUFFER_H
-#define _RTABUFFER_H
-
+#ifndef _CTABUFFER_H
+#define _CTABUFFER_H
 
 #include <pthread.h>
 #include <stdio.h>
 #include <semaphore.h>
-#include "RTAData.h"
+#include "CTAData.h"
 #include <string>
 
-using namespace std;
-
 //the producer/consumer (aka Bounded Buffer) problem.
-namespace RTAAlgorithm {
+namespace CTAAlgorithm {
 	
-	class RTABuffer {
+	class CTABuffer {
 		
 	private:
 		
-		RTAAlgorithm::RTAData** buffer;
+		CTAData** buffer;
 		int fill;
 		int use;
 		int circularBuffer;
 		sem_t* empty;
 		sem_t* full;
 		pthread_mutex_t mutex;
-		string semname1;
-		string semname2;
+		std::string semname1;
+		std::string semname2;
 
-		string _name;
+		std::string _name;
 		
 		int size;
 		
 	public:
 		
-		RTABuffer(string name, int size);
-		~RTABuffer();
+		CTABuffer(std::string name, int size);
+		~CTABuffer();
 		///Put data into local buffer
 		///The call is blocking if the buffer is full. Test it before with isFull()
-		void put(RTAData* data);
+		void put(CTAData* data);
 		
 		///get processed data from buffer
 		///The call is blocking if the buffer is empty.
-		RTAData* get();
+		CTAData* get();
 
-		string getName() {
+		std::string getName() {
 			return _name;
 		}
 		
@@ -67,7 +64,7 @@ namespace RTAAlgorithm {
 		
 		bool isFull();
 		
-		RTAData* getNextCircularBuffer();
+		CTAData* getNextCircularBuffer();
 	};
 }
 

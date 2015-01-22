@@ -1,7 +1,7 @@
 /***************************************************************************
- RTAData
+ CTAProducer.h
  -------------------
- copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
+ copyright            : (C) 2014 Andrea Bulgarelli
  email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
@@ -14,18 +14,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTADATA_H
-#define _RTADATA_H
+#ifndef _CTAPRODUCER_H
+#define _CTAPRODUCER_H
 
+#include "CTABuffer.h"
 
-namespace RTAAlgorithm {
+namespace CTAAlgorithm {
 	
-	class RTAData {
+	
+	///CTA algorithm base class
+	class CTAProducer {
+		
+	protected:
+		
+		CTABuffer* buffer_output;
 		
 	public:
-		int id;
+		
+		CTAProducer(CTABuffer* buffer_output);
+		
+		void setBufferOutput(CTABuffer* buffer_output);
+		
+		CTABuffer* getBufferOutput();
 		
 	};
+	
 }
 
 #endif

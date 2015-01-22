@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------
 # General configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = RTAAlgorithms 
+PROJECT_NAME           = CTAAlgorithms 
 PROJECT_NUMBER         = 1.0.0
 OUTPUT_DIRECTORY       = ref
 OUTPUT_LANGUAGE        = English

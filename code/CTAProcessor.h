@@ -1,5 +1,5 @@
 /***************************************************************************
- RTAProcessor.h
+ CTAProcessor.h
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,27 +14,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _RTAPROCESSOR_H
-#define _RTAPROCESSOR_H
+#ifndef _CTAPROCESSOR_H
+#define _CTAPROCESSOR_H
 
-#include "CTAMDArray.h"
-#include "RTAData.h"
-#include "RTABuffer.h"
-#include "RTAProducer.h"
-#include "RTAConsumer.h"
+#include <CTAMDArray.h>
+#include <rtautils/Thread.h>
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#include "rtautils/Thread.h"
+#include "CTAData.h"
+#include "CTABuffer.h"
+#include "CTAProducer.h"
+#include "CTAConsumer.h"
 
-
-using namespace std;
-
-namespace RTAAlgorithm {
+namespace CTAAlgorithm {
 	
 
-	///RTA algorithm base class
-	class RTAProcessor : public RTAConsumer, public RTAProducer {
+	///CTA algorithm base class
+	class CTAProcessor : public CTAConsumer, public CTAProducer {
 		
 	protected:
 		
@@ -43,27 +40,27 @@ namespace RTAAlgorithm {
 		
 	public:
 		
-		RTAProcessor(CTAConfig::CTAMDArray* array, RTABuffer* buffer_input = 0, RTABuffer* buffer_output = 0);
+		CTAProcessor(CTAConfig::CTAMDArray* array, CTABuffer* buffer_input = 0, CTABuffer* buffer_output = 0);
 		
 		virtual void init() = 0;
 		
 		virtual void processBufferElement();
 		
 		///write the algorithm in this method. Use this method also the test manually the algorithm
-		virtual RTAData* process(RTAData* input) = 0;
+		virtual CTAData* process(CTAData* input) = 0;
 		
 	};
 	
-	class RTAProcessorThread : public Thread {
+	class CTAProcessorThread : public Thread {
 	private:
 		
-		RTAProcessor* alg;
+		CTAProcessor* alg;
 		
 		bool stopb;
 		
 	public:
 				
-		void init(RTAProcessor* alg);
+		void init(CTAProcessor* alg);
 		
 		void *run();
 		

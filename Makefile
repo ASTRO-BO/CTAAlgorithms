@@ -27,7 +27,7 @@ SYSTEM= $(shell gcc -dumpmachine)
 #ice, ctarta, mpi, cfitsio
 LINKERENV= ctarta, cfitsio
 EXE_NAME1 =
-LIB_NAME = libRTAAlgorithms
+LIB_NAME = libCTAAlgorithms
 VER_FILE_NAME = version.h
 #the name of the directory where the conf file are copied (into $(datadir))
 CONF_DEST_DIR = rtaalgorithms

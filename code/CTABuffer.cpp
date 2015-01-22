@@ -1,5 +1,5 @@
 /***************************************************************************
- RTABuffer.cpp
+ CTABuffer.cpp
  -------------------
  copyright            : (C) 2014 Andrea Bulgarelli, Alessio Aboudan
  email                : bulgarelli@iasfbo.inaf.it
@@ -14,13 +14,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "RTABuffer.h"
+#include "CTABuffer.h"
 #include <iostream>
 #include <fcntl.h>
-using namespace std;
 
-RTAAlgorithm::RTABuffer::RTABuffer(string name, int size) {
-	this->buffer = (RTAData**) new RTAData* [size];
+namespace CTAAlgorithm {
+
+CTABuffer::CTABuffer(std::string name, int size) {
+	this->buffer = (CTAData**) new CTAData* [size];
 	this->size = size;
 	fill = 0;
 	use  = 0;
@@ -47,14 +48,14 @@ RTAAlgorithm::RTABuffer::RTABuffer(string name, int size) {
 	pthread_mutex_init(&mutex, NULL);
 }
 
-RTAAlgorithm::RTABuffer::~RTABuffer() {
+CTABuffer::~CTABuffer() {
 	sem_close(empty);
 	sem_unlink(semname1.c_str());
 	sem_close(full);
 	sem_unlink(semname2.c_str());
 }
 
-void RTAAlgorithm::RTABuffer::put(RTAAlgorithm::RTAData* data) {
+void CTABuffer::put(CTAData* data) {
 	int ret = sem_wait(empty);
 	if(ret != 0) {
 		perror("empty sem_wait() failed ");
@@ -76,14 +77,14 @@ void RTAAlgorithm::RTABuffer::put(RTAAlgorithm::RTAData* data) {
 
 }
 
-bool RTAAlgorithm::RTABuffer::isFull() {
+bool CTABuffer::isFull() {
 	if(fill == size - 1)
 		return true;
 
 	return false;
 }
 
-RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
+CTAData* CTABuffer::get() {
 	int ret = sem_wait(full);
 	if(ret != 0) {
 		perror("full sem_wait() failed ");
@@ -93,7 +94,7 @@ RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
 	// scope of lock reduced
 	pthread_mutex_lock(&mutex);
 	
-	RTAAlgorithm::RTAData* b = buffer[use];
+	CTAData* b = buffer[use];
 	use = (use + 1) % size;
 	
 	pthread_mutex_unlock(&mutex);
@@ -107,14 +108,16 @@ RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::get() {
 	return b;
 }
 
-RTAAlgorithm::RTAData* RTAAlgorithm::RTABuffer::getNextCircularBuffer() {
+CTAData* CTABuffer::getNextCircularBuffer() {
 	
-	RTAAlgorithm::RTAData* b = buffer[circularBuffer];
+	CTAData* b = buffer[circularBuffer];
 	circularBuffer = (circularBuffer + 1) % size;
 	return b;
 }
 
 
-int RTAAlgorithm::RTABuffer::getBufferSize() {
+int CTABuffer::getBufferSize() {
 	return this->size;
+}
+
 }
