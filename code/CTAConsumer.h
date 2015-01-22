@@ -18,7 +18,7 @@
 #define _CTACONSUMER_H
 
 #include "CTABuffer.h"
-#include <rtautils/Thread.h>
+#include <ctautils/Thread.h>
 
 namespace CTAAlgorithm {
 	

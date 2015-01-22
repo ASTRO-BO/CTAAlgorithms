@@ -18,7 +18,7 @@
 #define _CTAPROCESSOR_H
 
 #include <CTAMDArray.h>
-#include <rtautils/Thread.h>
+#include <ctautils/Thread.h>
 #include <stdlib.h>
 #include <string>
 #include <iostream>
