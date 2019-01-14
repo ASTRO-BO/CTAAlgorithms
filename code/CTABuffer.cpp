@@ -27,10 +27,17 @@ CTABuffer::CTABuffer(std::string name, int size) {
 	use  = 0;
 	circularBuffer = 0;
 	_name = name;
-	semname1 = "empty_";
+	char* currentUser = getenv ("USER");
+	if (currentUser == NULL){
+		perror ("$USER is not set.");
+		exit(0);
+	}
+	std::string currentUserStr(currentUser);
+
+	semname1 = currentUserStr+"_empty_";
 	semname1 += name;
 	sem_unlink(semname1.c_str());
-	semname2 = "full_";
+	semname2 = currentUserStr+"full_";
 	semname2 += name;
 	sem_unlink(semname2.c_str());
 	//sem_init(&empty, 0, size); // MAX buffers are empty to begin with...
@@ -63,10 +70,10 @@ void CTABuffer::put(CTAData* data) {
 	}
 	// scope of lock reduced
 	pthread_mutex_lock(&mutex);
-	
+
 	this->buffer[fill] = data;
 	fill = (fill + 1) % size;
-	
+
 	pthread_mutex_unlock(&mutex);
 
 	ret = sem_post(full);
@@ -90,13 +97,13 @@ CTAData* CTABuffer::get() {
 		perror("full sem_wait() failed ");
 		exit(0);
 	}
-	
+
 	// scope of lock reduced
 	pthread_mutex_lock(&mutex);
-	
+
 	CTAData* b = buffer[use];
 	use = (use + 1) % size;
-	
+
 	pthread_mutex_unlock(&mutex);
 
 	ret = sem_post(empty);
@@ -104,12 +111,12 @@ CTAData* CTABuffer::get() {
 		perror("empty sem_post() failed ");
 		exit(0);
 	}
-	
+
 	return b;
 }
 
 CTAData* CTABuffer::getNextCircularBuffer() {
-	
+
 	CTAData* b = buffer[circularBuffer];
 	circularBuffer = (circularBuffer + 1) % size;
 	return b;
