@@ -17,7 +17,7 @@
 #include "CTABuffer.h"
 #include <iostream>
 #include <fcntl.h>
-
+#include <stdlib.h>     /* getenv */
 namespace CTAAlgorithm {
 
 CTABuffer::CTABuffer(std::string name, int size) {
